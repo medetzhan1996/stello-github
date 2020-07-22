@@ -84,27 +84,33 @@ class ConstructorIndexView(LoginRequiredMixin, TemplateResponseMixin, View):
             if request.GET.get('product_edit', None):
                 self.product = get_object_or_404(
                     Product, id=request.GET.get('product_id'))
-                return render(request, 'manager/product_modal.html',
-                              {'product_form': self.product_form_class(
-                                  request.user, instance=self.product),
-                               'product': self.product})
+                return render(
+                    request, 'figma/constructor-site/product_modal.html',
+                    {'product_form': self.product_form_class(
+                        request.user, instance=self.product),
+                     'product': self.product})
             elif request.GET.get('category_edit', None):
                 self.category = get_object_or_404(
                     Сategory, id=request.GET.get('category_id'))
-                return render(request, 'manager/category_modal.html',
-                              {'category_form': self.category_form_class(
-                                  instance=self.category),
-                               'category': self.category})
+                return render(
+                    request, 'figma/constructor-site/category_modal.html',
+                    {'category_form': self.category_form_class(
+                        instance=self.category),
+                     'category': self.category})
             elif request.GET.get('category_remove', None):
                 self.category = get_object_or_404(
                     Сategory, id=request.GET.get('category_id'))
-                return render(request, 'manager/category_remove_modal.html',
-                              {'category': self.category})
+                return render(
+                    request,
+                    'figma/constructor-site/category_remove_modal.html',
+                    {'category': self.category})
             elif request.GET.get('product_remove', None):
                 self.product = get_object_or_404(
                     Product, id=request.GET.get('product_id'))
-                return render(request, 'manager/product_remove_modal.html',
-                              {'product': self.product})
+                return render(
+                    request,
+                    'figma/constructor-site/product_remove_modal.html',
+                    {'product': self.product})
         return self.render_to_response(
             {
                 'category_form': self.category_form_class(),
@@ -146,7 +152,7 @@ class ConstructorIndexView(LoginRequiredMixin, TemplateResponseMixin, View):
         elif request.POST.get('product-remove-submit', None):
             Product.objects.filter(id=request.POST.get(
                 'product_id'), author=request.user.id).delete()
-        return redirect('manager:index')
+        return redirect('figma:constructor_index')
 
 
 # Mixin продукта
@@ -156,7 +162,7 @@ class ConstructorProductMixin(LoginRequiredMixin, TemplateResponseMixin, View):
     product_materials = None
 
     def dispatch(self, *args, **kwargs):
-        self.proConstructorduct = get_object_or_404(
+        self.product = get_object_or_404(
             Product, id=self.kwargs['id'])
         self.product_materials = ProductMaterial.objects.filter(
             product=self.kwargs['id']).all()
@@ -178,8 +184,9 @@ class ConstructorProductMixin(LoginRequiredMixin, TemplateResponseMixin, View):
                                         price=price)
                     q.save()
             if request.POST.get('send-material', None):
-                return redirect('manager:product_detail', self.kwargs['id'])
-            return redirect('manager:index')
+                return redirect('figma:constructor_product_detail',
+                                self.kwargs['id'])
+            return redirect('figma:constructor_index')
         return self.render_to_response({
             'product': self.product, 'product_form': product_form,
             'product_materials': self.product_materials})

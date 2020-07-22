@@ -16,9 +16,9 @@ def background_image(file_url):
 @register.simple_tag
 def product_url(kind):
     if kind == 'text_input':
-        return 'manager:product_detail'
+        return 'figma:constructor_product_detail'
     elif kind == 'image_select':
-        return 'manager:product_photo_detail'
+        return 'figma:constructor_product_photo_detail'
 
 
 @register.simple_tag

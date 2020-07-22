@@ -165,3 +165,33 @@
 		</div>
 	</section>
 {% endblock %}
+{% block domready %}
+	/* WebSocket begin */
+	var url = 'ws://' + window.location.host +
+	            '/ws/crm/figma/order/'+{{author}}+'/';
+	var orderSocket = new WebSocket(url);
+	orderSocket.onmessage = function(e) {
+	    var data = JSON.parse(e.data);
+	    var preview_text = data.preview_text;
+	    alert(preview_text)
+	};
+	orderSocket.onclose = function(e) {
+	    console.error('Chat socket closed unexpectedly');
+	};
+
+	$(document).on('click', '#send-message', function(){
+		var product = $('#product').val()
+		var preview_text = $('#preview-text').val()
+		var product_material = $('#product-material').val()
+		var phone_number = $('#client-phone').val()
+		orderSocket.send(JSON.stringify(
+			{
+				'product': product,
+				'preview_text': preview_text,
+				'product_material': product_material,
+				'phone_number': phone_number
+			}
+		));
+	})
+	/* WebSocket end */
+{% endblock %}

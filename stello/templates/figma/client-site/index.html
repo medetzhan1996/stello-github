@@ -11,7 +11,7 @@
 						<ul class="category-menu">
 							{% for  category in categories %}
 								<li>
-									<a href="{% url 'shop-site:index' author=author category=category.id %}">{{category.title}}</a>
+									<a href="{% url 'figma:index' author=author category=category.id %}">{{category.title}}</a>
 								</li>
 							{% empty %}
 							<li>
@@ -42,7 +42,7 @@
 										{% if product.price_old %}
 											<div class="tag-sale">Акция</div>
 										{% endif %}
-										<a href="{% url 'shop-site:product_detail' author=author pk=product.id %}">
+										<a href="{% url 'figma:product_detail' author=author pk=product.id %}">
 											<img src="{{product.file.url}}" alt="">
 										</a>
 										<div class="pi-links">

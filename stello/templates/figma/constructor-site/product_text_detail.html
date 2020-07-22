@@ -1,7 +1,10 @@
-{% extends "manager/base.html" %}
+{% extends "base_manager.html" %}
 {% load static %}
 {% load widget_tweaks %}
 {% load my_tags %}
+{% block scripts %}
+  {{ product_form.media }}
+{% endblock %}
 {% block content %}
   <!-- main-panel-->
       <div class="main-panel">

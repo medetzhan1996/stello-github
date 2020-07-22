@@ -1,0 +1,15 @@
+{% extends "base_manager.html" %}
+{% load static %}
+{% block content %}
+	{{user.id}}
+{% endblock %}
+{% block domready %}
+	var url = 'ws://' + window.location.host +
+	            '/ws/crm/figma/order/'+{{user.id}}+'/';
+	var orderSocket = new WebSocket(url);
+	orderSocket.onmessage = function(e) {
+	    var data = JSON.parse(e.data);
+	    var preview_text = data.preview_text;
+	    alert(preview_text)
+	};
+{% endblock %}
