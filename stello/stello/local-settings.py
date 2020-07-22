@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'figma',
+    'channels',
     'dal',
     'pwa',
     'tinymce',
@@ -77,6 +78,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'stello.wsgi.application'
+ASGI_APPLICATION = 'stello.routing.application'
 PWA_APP_NAME = 'stello'
 PWA_APP_DESCRIPTION = "stello crm site"
 PWA_APP_DEBUG_MODE = False
@@ -90,6 +92,15 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)],
+        },
+    },
 }
 
 # Password validation
