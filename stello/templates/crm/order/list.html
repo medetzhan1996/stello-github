@@ -1,7 +1,124 @@
 {% extends "base_manager.html" %}
 {% load static %}
 {% block content %}
-	{{user.id}}
+	<div class="row">
+        <div class="col-md-8">
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title">Bходящие</h3>
+              <div class="card-tools">
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" placeholder="Пойск...">
+                  <div class="input-group-append">
+                    <div class="btn btn-primary">
+                      <i class="fa fa-search"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-tools -->
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <div class="mailbox-controls">
+                <!-- Check all button -->
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                </div>
+                <!-- /.btn-group -->
+                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                <div class="float-right">
+                  1-50/200
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
+                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
+                  </div>
+                  <!-- /.btn-group -->
+                </div>
+                <!-- /.float-right -->
+              </div>
+              <div class="table-responsive mailbox-messages">
+                <table class="table table-hover table-striped">
+                  <tbody>
+                  <tr>
+                    <td>
+                      <div class="icheck-primary">
+                        <input type="checkbox" value="" id="check1">
+                        <label for="check1"></label>
+                      </div>
+                    </td>
+                    <td class="mailbox-name"><a href="read-mail.html">Жулдыз Искакова</a>&nbsp&nbsp Браслет</td>
+                    <td class="mailbox-date"><span class="pull-right ">5 минут назад</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="icheck-primary">
+                        <input type="checkbox" value="" id="check2">
+                        <label for="check2"></label>
+                      </div>
+                    </td>
+                    <td class="mailbox-name"><a href="read-mail.html">Жулдыз Искакова</a>&nbsp&nbsp Именной кулон</td>
+                    <td class="mailbox-date"><span class="pull-right ">28 минут назад</span></td>
+                  </tr>
+                  </tbody>
+                </table>
+                <!-- /.table -->
+              </div>
+              <!-- /.mail-box-messages -->
+            </div>
+            <!-- /.card-body -->
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Сотрудники</h3>
+            </div>
+            <div class="card-body p-0" style="display: block;">
+              <ul class="nav nav-pills flex-column">
+                <li class="nav-item active">
+                  <a href="#" class="nav-link">
+                    <i class="fa fa-user-circle-o"></i> Өмірахын Елдос
+                    <span class="badge bg-primary float-right">12</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="fa fa-user-circle"></i> Жанғазы Медет
+                    <span class="badge bg-primary float-right">65</span>
+                  </a>
+                </li>
+                <li class="nav-item active">
+                  <a href="#" class="nav-link">
+                    <i class="fa fa-user-circle-o"></i> Өмірахын Елдос
+                    <span class="badge bg-primary float-right">12</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="fa fa-user-circle"></i> Жанғазы Медет
+                    <span class="badge bg-primary  float-right">65</span>
+                  </a>
+                </li>
+                <li class="nav-item active">
+                  <a href="#" class="nav-link">
+                    <i class="fa fa-user-circle-o"></i> Өмірахын Елдос
+                    <span class="badge bg-primary float-right">12</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="fa fa-user-circle"></i> Жанғазы Медет
+                    <span class="badge bg-warning float-right">65</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <!-- /.card-body -->
+          </div>
+        </div>
+    </div>
 {% endblock %}
 {% block domready %}
 	var url = 'ws://' + window.location.host +
@@ -10,6 +127,7 @@
 	orderSocket.onmessage = function(e) {
 	    var data = JSON.parse(e.data);
 	    var preview_text = data.preview_text;
-	    alert(preview_text)
+	    alert(preview_text);
+	    console.log(data)
 	};
 {% endblock %}

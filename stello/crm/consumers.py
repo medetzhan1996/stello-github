@@ -5,9 +5,8 @@ from asgiref.sync import async_to_sync
 
 class FigmaOrderConsumer(WebsocketConsumer):
     def connect(self):
-        self.user = self.scope['user']
         self.author_id = self.scope['url_route']['kwargs']['author']
-        self.client_auth = self.scope["session"]["client_auth"]
+        self.client = self.scope["session"]["client_auth"]
         self.room_group_name = 'order_%s' % self.author_id
         # join room group
         async_to_sync(self.channel_layer.group_add)(
@@ -41,8 +40,7 @@ class FigmaOrderConsumer(WebsocketConsumer):
                 'product': product,
                 'product_material': product_material,
                 'phone_number': phone_number,
-                'user': self.user.id,
-                'client_auth': self.client_auth
+                'client': self.client
             }
         )
 
