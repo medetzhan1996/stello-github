@@ -1,0 +1,26 @@
+@font-face {
+    font-family: 'Krona One', sans-serif; /* Имя шрифта */
+    src: url(fonts/Krona_One/KronaOne-Regular.ttf); /* Путь к файлу со шрифтом */
+}
+@font-face {
+    font-family: 'Porcelain'; /* Имя шрифта */
+    src: url(fonts/17896.ttf); /* Путь к файлу со шрифтом */
+}
+/*Асыл анама */
+@font-face {
+    font-family: 'AnastasiaScriptC'; /* Имя шрифта */
+    src: url(fonts/16156.otf); /* Путь к файлу со шрифтом */
+}
+
+/*Айда */
+@font-face {
+    font-family: 'SharonAP'; /* Имя шрифта */
+    src: url(fonts/14756.ttf); /* Путь к файлу со шрифтом */
+}
+
+
+@font-face {
+	font-family: "AIV2"; 
+	src: url("//db.onlinewebfonts.com/t/85c583c654c4faa6ea8d7b7592ba2b3e.eot"); 
+	src: url("//db.onlinewebfonts.com/t/85c583c654c4faa6ea8d7b7592ba2b3e.eot?#iefix") 
+	format("embedded-opentype"), url("//db.onlinewebfonts.com/t/85c583c654c4faa6ea8d7b7592ba2b3e.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/85c583c654c4faa6ea8d7b7592ba2b3e.woff") format("woff"), url("//db.onlinewebfonts.com/t/85c583c654c4faa6ea8d7b7592ba2b3e.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/85c583c654c4faa6ea8d7b7592ba2b3e.svg#AIV2") format("svg"); }

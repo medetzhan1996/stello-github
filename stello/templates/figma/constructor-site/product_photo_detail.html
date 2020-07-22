@@ -1,0 +1,334 @@
+{% extends "manager/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% load my_tags %}
+{% block content %}
+  <!-- main-panel-->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <!-- Header section -->
+            <header class="header-section">
+              <div class="header-top">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-lg-12 text-center">
+                      <!-- logo -->
+                      <a href="" class="site-logo">
+                        <img src="http://work.biotelemedicina.com/img/logo.png" alt="">
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <nav class="main-navbar">
+                <div class="container">
+                  <!-- menu -->
+                  <ul class="main-menu">
+                    <li><a href="#">Главная страница</a></li>
+                    <!--li><a href="#">Для парня / отца</a></li>
+                    <li><a href="#">Для девушки / мамы</a></li>
+                    <li><a href="#">для новорожденного</a></li-->
+                  </ul>
+                </div>
+              </nav>
+            </header>
+            <!-- Header section end -->
+              <!-- product section -->
+            <form action="" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div hidden>
+                {{product_form.is_top}}
+                {{product_form.author}}
+                {{product_form.category}}
+                {{product_form.kind}}
+              </div>
+              <section class="product-section">
+                <div class="container">
+                  {{ product_form.errors }}
+                  <!-- <input type="submit" class="btn btn-sm btn-primary" name="" value="Сохранить"> -->
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div id="carouselExampleControls" class="carousel slide" data-ride="carousel"  data-interval="false" style="">
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div id="image-preview-extra" class="carusel-wh" style="{% background_image product.file %}">
+                              <div class="box">
+                                {{product_form.file}}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div id="image-preview-extra1" class="carusel-wh" style="{% background_image product.file_extra1 %}">
+                              <div class="box">
+                                {{product_form.file_extra1}}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div id="image-preview-extra2" class="carusel-wh" style="{% background_image product.file_extra2 %}">
+                              <div class="box">
+                                {{product_form.file_extra2}}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div id="image-preview-extra3" class="carusel-wh" style="{% background_image product.file_extra3 %}">
+                              <div class="box">
+                                {{product_form.file_extra3}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                          <span class="fa fa-chevron-left icon-slaider"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                          <span class="fa fa-chevron-right icon-slaider"></span>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 product-details">
+                      <span style="font-weight: 500;">Наименования товара:</span>
+                      {{product_form.title|add_class:"form-control"}}
+                      <span style="font-weight: 500;">Цена товара:</span>
+                      {{product_form.price|add_class:"form-control"}}
+                        {% if product.price_old %}
+                            <span style="font-weight: 500;">Прежная цена товара (акция):</span>
+                            {{product_form.price_old|add_class:"form-control"}}
+                        {% endif %}
+                      </h3>
+                      <div class="input-text-modal">
+                        <div class="form-group">
+                            <label for="validationTooltipUsername">Выбор фона изображения: </label>
+                            <span id="preview-content" class="font-anastasiaScriptC color-gold font-style"></span>
+                            <button type="button" class="ul-btn" data-toggle="modal" data-target="#imageFontModal">Добавить</button>
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleFormControlSelect1">Выберите материал:</label>
+                            <button type="button" class="ul-btn" data-toggle="modal" data-target="#materialModal">Добавить</button>
+                            <ul class="category-menu">
+                              {% for  value in product_materials %}
+                                <li >
+                                  <a href="#">{{value.material.title}} / {{value.price}} тг </a> 
+                                  <span class="li-span">
+                                    <i class="fa fa-pencil" aria-hidden="true" data-toggle="modal" data-target="#materialModal"></i>
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                  </span>
+                                </li>  
+                              {% endfor %}                 
+                            </ul>
+                          </div>
+                      </div>
+                      <div id="accordion" class="accordion-area">
+                        <div class="panel">
+                          <div class="panel-header" id="headingOne">
+                            <button type="button" style="min-height: 50px;" class="panel-link active" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">Описание</button>
+                          </div>
+                          <div id="collapse1" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="panel-body">
+                              {{product_form.description}}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel">
+                          <div class="panel-header" id="headingTwo">
+                            <button type="button" class="panel-link" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">Подробности </button>
+                          </div>
+                          <div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <div class="panel-body">
+                              {{product_form.details}}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel">
+                          <div class="panel-header" id="headingThree">
+                            <button type="button" class="panel-link" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">доставка и возврат</button>
+                          </div>
+                          <div id="collapse3" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                            <div class="panel-body">
+                              {{product_form.shipping_return}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <div class="theme-setting-wrapper">
+                <div id="settings-trigger"><button type="submit" class="btn-s"><i class="fa fa-check"></i></button></div>
+              </div>
+              <!-- Modal -->
+              <div class="modal fade" id="materialModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="materialModalLabel">Информация о материале </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <table class="table table-bordered">
+                          <tr>
+                            <th>Наименование</th>
+                            <th>Стоимость</th>
+                          </tr>
+                          {% for  value in product_materials %}
+                            <tr id="content-{{value.id}}">
+                              <td>
+                                <input type="text" name="material_title" value="{{value.material.title}}" class="form-control">
+                              </td>
+                              <td>
+                                <input type="number" name="material_price" value="{{value.price}}" class="form-control">
+                              </td>
+                              <td>
+                                <button class="btn btn-danger btn-xs remove-content" data-id="{{value.id}}">x</button>
+                              </td>
+                            </tr>
+                          {% endfor %}
+                          <tr>
+                            <td>
+                              <input type="text" name="material_title" class="form-control">
+                            </td>
+                            <td>
+                              <input type="number" name="material_price" class="form-control">
+                            </td>
+                            <td>
+                              <button class="btn btn-success btn-xs add-content">+</button>
+                            </td>
+                          </tr>
+                          <tbody id="append-content"></tbody>
+                        </table>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Закрыть</button>
+                        <input type="submit" name="send-material" class="btn btn-sm btn-primary" value="Отправить">
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Modal -->
+              <!-- Modal -->
+              <div class="modal fade" id="imageFontModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="materialModalLabel">Выбор изображения фона </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <table class="table table-bordered">
+                          <tr>
+                            <td colspan="2">
+                              Выберите категорию
+                              <select class="form-control">
+                                <option></option>
+                                <option>Сотовые телефоны</option>
+                                <option>Кулоны</option>
+                              </select>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="{% background_image product.file %};height: 230px;"></td>
+                            <td style="{% background_image product.file_extra1 %};height: 230px;"></td>
+                          </tr>
+                          <tr>
+                            <td colspan="2">
+                              1 &nbsp&nbsp 2 &nbsp&nbsp 3 &nbsp&nbsp 4 &nbsp&nbsp
+                              5 &nbsp&nbsp 6 &nbsp&nbsp 7 &nbsp&nbsp
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Закрыть</button>
+                        <input type="submit" name="send-material" class="btn btn-sm btn-primary" value="Отправить">
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Modal -->
+            </form>
+            <!-- RELATED PRODUCTS section -->
+            <!-- Footer section -->
+            <section class="footer-section">
+              <div class="social-links-warp">
+                <div class="container">
+                  <div class="social-links">
+                    <a href="" class="instagram"><i class="fa fa-instagram"></i><span>instagram</span></a>
+                    <a href="" class="google-plus"><i class="fa fa-google-plus"></i><span>g+plus</span></a>
+                    <a href="" class="pinterest"><i class="fa fa-pinterest"></i><span>pinterest</span></a>
+                    <a href="" class="facebook"><i class="fa fa-facebook"></i><span>facebook</span></a>
+                    <a href="" class="twitter"><i class="fa fa-twitter"></i><span>twitter</span></a>
+                    <a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>
+                    <a href="" class="tumblr"><i class="fa fa-tumblr-square"></i><span>tumblr</span></a>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- Footer section end -->
+        </div>
+        <!-- content-wrapper ends -->
+      </div>
+      <!-- main-panel ends -->
+      
+{% endblock %}
+{% block domready %}
+  $.uploadPreview({
+    input_field: "#id_file",   // Default: .image-upload
+    preview_box: "#image-preview-extra",  // Default: .image-preview
+    label_field: "#file_extra",    // Default: .image-label
+    label_default: "Choose File",   // Default: Choose File
+    label_selected: "Change File",  // Default: Change File
+    no_label: false                 // Default: false
+  });
+  $.uploadPreview({
+    input_field: "#id_file_extra1",   // Default: .image-upload
+    preview_box: "#image-preview-extra1",  // Default: .image-preview
+    label_field: "#file_extra1",    // Default: .image-label
+    label_default: "Choose File",   // Default: Choose File
+    label_selected: "Change File",  // Default: Change File
+    no_label: false                 // Default: false
+  });
+  $.uploadPreview({
+    input_field: "#id_file_extra2",   // Default: .image-upload
+    preview_box: "#image-preview-extra2",  // Default: .image-preview
+    label_field: "#file_extra2",    // Default: .image-label
+    label_default: "Choose File",   // Default: Choose File
+    label_selected: "Change File",  // Default: Change File
+    no_label: false                 // Default: false
+  });
+  $.uploadPreview({
+    input_field: "#id_file_extra3",   // Default: .image-upload
+    preview_box: "#image-preview-extra3",  // Default: .image-preview
+    label_field: "#file_extra3",    // Default: .image-label
+    label_default: "Choose File",   // Default: Choose File
+    label_selected: "Change File",  // Default: Change File
+    no_label: false                 // Default: false
+  });
+  // Удалить данные товар
+  $(document).on('click', '.remove-content', function(){
+    event.preventDefault()
+    $(this).closest('tr').remove()
+  })
+  $(document).on('click', '.add-content', function(){
+    event.preventDefault()
+    var output = ''
+    output += '<tr>'
+    output += '<td>'
+    output += '<input type="text" name="material_title" value="" class="form-control">'
+    output += '</td>'
+    output += '<td>'
+    output += '<input type="text" name="material_price" value="" class="form-control">'
+    output += '</td>'
+    output += '<td>'
+    output += '<button class="btn btn-danger btn-xs remove-content">x</button>'
+    output += '</td>'
+    output += '</tr>'
+    $('#append-content').append(output)
+  })
+  
+{% endblock %}
+

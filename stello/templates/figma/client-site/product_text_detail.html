@@ -1,0 +1,167 @@
+{% extends "figma/client-site/base.html" %}
+{% load static %}
+{% block content %}
+	<!-- product section -->
+	<section class="product-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+					  <div class="carousel-inner">
+						<div class="carousel-item active">
+						  <img src="{{product.file.url}}" alt="...">
+						</div>
+						{% if product.file_extra1 %}
+							<div class="carousel-item">
+							  <img src="{{product.file_extra1.url}}" alt="...">
+							</div>
+						{% endif %}
+						{% if product.file_extra2 %}
+							<div class="carousel-item">
+							  <img src="{{product.file_extra2.url}}" alt="...">
+							</div>
+						{% endif %}
+						{% if product.file_extra3 %}
+							<div class="carousel-item">
+							  <img src="{{product.file_extra3.url}}" alt="...">
+							</div>
+						{% endif %}
+					  </div>
+					  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					  </a>
+					  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					  </a>
+					</div>
+				</div>
+				<div class="col-lg-6 product-details">
+					<h2 class="p-title" style="font-weight: 400;">{{product.title}}</h2>
+					<h3 class="p-price" id="price-content" style="font-weight: 600;">
+						<input type="hidden" name="product" id="product" value="{{product.id}}">
+						{{product.price}} тг
+						{% if product.price_old %}
+							<del style="color: #de0047;font-weight: 600;margin-left: 5px;font-size: 18px;">
+								{{product.price_old}} тг
+							</del>
+						{% endif %}
+					</h3>
+					<!--h4 class="p-stock">В наличии: <span>Есть</span></h4-->
+					<div class="p-rating">
+						<i class="fa fa-star-o"></i>
+						<i class="fa fa-star-o"></i>
+						<i class="fa fa-star-o"></i>
+						<i class="fa fa-star-o"></i>
+						<i class="fa fa-star-o"></i>
+					</div>
+					<div class="input-text-modal">
+						<div class="form-group">
+						    <label for="validationTooltipUsername">Пред. осмотр: </label>
+						    <span id="preview-content" class="{{product.classes}}"></span>
+						    <input type="text" id="preview-text" class="form-control form-contact"  placeholder="Введите имя или текст ..." required>
+						</div>
+						{% if product_materials %}
+						    <div class="form-group">
+							    <label for="exampleFormControlSelect1">Выберите материал:</label>
+							    <select name="product_material" class="form-control product_material form-contact" id="product-material">
+							    	{% for  product_material in product_materials %}
+							    		<option data-price="{{product_material.price}}" value="{{product_material.id}}">
+							    			{{product_material.material.title}}
+							    		</option>
+							    	{% empty %}
+							    		<option value="">Материал не добавлен</option>
+							    	{% endfor %}
+							    </select>
+							  </div>
+						  {% endif %}
+						  <div class="form-group">
+						    <label for="validationTooltipUsername">Введите номер телефона: </label>
+						    <span id="preview-content" class="{{product.classes}}"></span>
+						    <input type="tel" name="client_phone" class="form-control" id="client-phone" placeholder="номер телефон" required>
+						</div>
+						<button type="button" id="send-message" class="site-btn">Заказать</button>
+					</div>
+
+					<div id="accordion" class="accordion-area">
+						<div class="panel">
+							<div class="panel-header" id="headingOne">
+								<button style="min-height: 50px;" class="panel-link active" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">Описание</button>
+							</div>
+							<div id="collapse1" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+								<div class="panel-body">
+									<p class="p-text">{{product.description|safe}}</p>
+								</div>
+							</div>
+						</div>
+						<div class="panel">
+							<div class="panel-header" id="headingTwo">
+								<button class="panel-link" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">Подробности </button>
+							</div>
+							<div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+								<div class="panel-body">
+									{{product.details|safe}}
+								</div>
+							</div>
+						</div>
+						<div class="panel">
+							<div class="panel-header" id="headingThree">
+								<button class="panel-link" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">доставка и возврат</button>
+							</div>
+							<div id="collapse3" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+								<div class="panel-body">
+									{{product.shipping_return|safe}}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12 spad">
+					<div class="frcontainer">
+						<div class="row">
+							<div class="col-md-4">
+								<div class="media">
+								  <div class="media-left">
+								    <a href="#" class="icon-slaider">
+								      <i class="fa fa-diamond" aria-hidden="true"></i>
+								    </a>
+								  </div>
+								  <div class="media-body">
+								    <h4 class="media-heading">Неподдельный</h4>
+								    Качественные материалы
+								  </div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="media">
+								  <div class="media-left">
+								    <a href="#" class="icon-slaider">
+								      <i class="fa fa-shield" aria-hidden="true"></i>
+								    </a>
+								  </div>
+								  <div class="media-body">
+								    <h4 class="media-heading">100% безопасность</h4>
+								    Оплата
+								  </div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="media">
+								  <div class="media-left">
+								    <a href="#" class="icon-slaider">
+								     <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+								    </a>
+								  </div>
+								  <div class="media-body">
+								    <h4 class="media-heading">Бесплатная доставка по Казахстану</h4>
+								  </div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

@@ -1,0 +1,285 @@
+{% extends "base_manager.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% load my_tags %}
+{% block content %}
+  <!-- Header section -->
+  <header class="header-section">
+    <div class="header-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <!-- logo -->
+            <a href="" class="site-logo">
+              <img src="http://work.biotelemedicina.com/img/logo.png" alt="">
+            </a>
+          </div>
+          <!--div class="col-xl-6 col-lg-5">
+            <form class="header-search-form">
+              <input type="text" placeholder="Поиск товара ....">
+              <button><i class="flaticon-search"></i></button>
+            </form>
+          </div-->
+        </div>
+      </div>
+    </div>
+    <nav class="main-navbar">
+      <div class="container">
+        <!-- menu -->
+        <ul class="main-menu menu">
+          <li><a href="#">Главная страница</a></li>
+          <a href="" class="a-btn" data-toggle="modal" data-target="#exampleModal">Добавить</a>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <!-- Header section end -->
+  <!-- Hero section -->
+  <section class="hero-section">
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel"  data-interval="false">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <!--img src="" class="d-block w-100 carusel-wh"  alt="..."-->
+        </div>
+        <div class="carousel-item">
+          <button class="ul-btn carusel-wh" data-toggle="modal" data-target="#exampleModal">Добавить</button>
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+      <span class="fa fa-chevron-left icon-slaider"></span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+      <span class="fa fa-chevron-right icon-slaider"></span>
+      </a>
+    </div>
+  </section>
+  <!-- Hero section -->
+  <!-- Category section -->
+  <section class="category-section">
+    <div class="container">
+      <div class="row">
+        {{ product_form.errors }}
+        <div class="col-lg-3 order-1 order-lg-1">
+          <div class="filter-widget">
+            <h2 class="fw-title">Категории</h2>
+            <button class="ul-btn" data-toggle="modal" data-target="#categoryModal">Добавить</button>
+            <ul class="category-menu">
+              {% for  category in categories %}
+                <li>
+                  <a href="{% url 'shop-site:index' author=user.id category=category.id %}">
+                    {{category.title}}
+                  </a>
+                  <span class="li-span">
+                    <i class="fa fa-pencil edit-category" data-id="{{category.id}}" aria-hidden="true" data-toggle="modal" data-target="#categoryModal">
+                    </i>&nbsp&nbsp
+                    <i class="fa fa-trash remove-category" data-id="{{category.id}}" aria-hidden="true" data-toggle="modal" data-target="#removeCategoryModal"></i>
+                  </span>
+                </li>
+              {% empty %}
+                <li>
+                  <a href="">Категории не добавлены</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-9  order-2 order-lg-2 mb-5 mb-lg-0">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="text-center">
+                <h2 class="border-b">ТОП ПРОДАЖ</h2> 
+              </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+              <div class="add" data-toggle="modal" data-target="#productModal">
+                <div class="add-images">
+                  <i class="fa fa-plus plus" aria-hidden="true"></i>
+                  <label>Добавить</label>
+                </div>
+              </div>
+            </div>
+            {% for product in products %}
+              {% product_url product.kind as kind_url %}
+              <div class="col-lg-4 col-sm-6">
+                <div class="product-item">
+                  <div class="pi-pic">
+                    {% if product.price_old %}
+                      <div class="tag-sale">Акция</div>
+                    {% endif %}
+                    <a href="{% url kind_url id=product.id %}">
+                      <img src="{{product.file.url}}" alt="">
+                    </a>
+                    <div class="pi-links">
+                      <a href="#" class="wishlist-btn edit-product" data-id="{{product.id}}" data-toggle="modal" data-target="#productModal">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                      </a>
+                      <a href="#" class="wishlist-btn remove-product" data-id="{{product.id}}" data-toggle="modal" data-target="#removeProductModal">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="pi-text">
+                    <span class="span-tg" style="color:#e81150;font-weight: bold;">{{product.price}} тг</span>
+                    {% if product.price_old %}
+                      <del>{{product.price_old}} тг</del>
+                    {% endif %}
+                    <p style="color:#9a9a9a;">{{product.title}}</p>
+                  </div>
+                </div>
+              </div>
+            {% empty %}
+
+            {% endfor %}
+            </div>
+          </div>      
+        </div>
+      </div>
+    </section>
+    <!-- Category section end -->
+    <!-- Footer section -->
+    <section class="footer-section">
+      <div class="social-links-warp">
+        <div class="container">
+          <div class="social-links">
+            <a href="" class="instagram"><i class="fa fa-instagram"></i><span>instagram</span></a>
+            <a href="" class="a-btn" data-toggle="modal" data-target="#exampleModal">Добавить</a>
+          </div>
+        </div>
+      </div>
+    </section>
+        <!-- Footer section end -->
+{% endblock %}
+{% block modal %}
+<!-- Modal category -->
+  <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" id="category-content">
+      	{% include "figma/constructor-site/category_modal.html" %}
+    </div>
+  </div>
+<!-- Modal category end -->
+<!-- Modal product -->
+<div class="modal fade" id="productModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document" id="product-content">
+    {% include "figma/constructor-site/product_modal.html" %}
+  </div>
+</div>
+<!-- Modal product end -->
+<!-- Modal remove product -->
+<div class="modal fade" id="removeProductModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form action="" method="post">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Подтвердите удаление </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="remove-product-content">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Закрыть</button>
+          <input type="submit" name="product-remove-submit" class="btn btn-sm btn-danger" value="Удалить">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal remove product end -->
+<!-- Modal remove category -->
+<div class="modal fade" id="removeCategoryModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form action="" method="post">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Подтвердите удаление </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="remove-category-content">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Закрыть</button>
+          <input type="submit" name="category-remove-submit" class="btn btn-sm btn-danger" value="Удалить">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal remove category end -->
+{% endblock %}
+{% block domready %}
+  // Извлечь данные продукта
+  $(document).on('click', '.edit-product', function(){
+    event.preventDefault()
+    var product_id = $(this).data('id')
+    $.ajax({
+      url: '',
+      type: 'GET',
+      data: {product_id: product_id, product_edit: true},
+      error: function(jqXHR, textStatus, errorThrown){
+        alert(jqXHR.responseText)
+      },
+      success: function (data){
+        $('#product-content').html(data)
+      }
+    })
+  })
+
+  // Извлечь данные категории
+  $(document).on('click', '.edit-category', function(){
+    event.preventDefault()
+    var category_id = $(this).data('id')
+    $.ajax({
+      url: '',
+      type: 'GET',
+      data: {category_id: category_id, category_edit: true},
+      error: function(jqXHR, textStatus, errorThrown){
+        alert(jqXHR.responseText)
+      },
+      success: function (data){
+        $('#category-content').html(data)
+      }
+    })
+  })
+
+  // Удалить данные категории
+  $(document).on('click', '.remove-category', function(){
+    event.preventDefault()
+    var category_id = $(this).data('id')
+    $.ajax({
+      url: '',
+      type: 'GET',
+      data: {category_id: category_id, category_remove: true},
+      error: function(jqXHR, textStatus, errorThrown){
+        alert(jqXHR.responseText)
+      },
+      success: function (data){
+        $('#remove-category-content').html(data)
+      }
+    })
+  })
+
+  // Удалить данные товар
+  $(document).on('click', '.remove-product', function(){
+    event.preventDefault()
+    var product_id = $(this).data('id')
+    $.ajax({
+      url: '',
+      type: 'GET',
+      data: {product_id: product_id, product_remove: true},
+      error: function(jqXHR, textStatus, errorThrown){
+        alert(jqXHR.responseText)
+      },
+      success: function (data){
+        $('#remove-product-content').html(data)
+      }
+    })
+  })
+{% endblock %}
