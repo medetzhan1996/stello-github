@@ -5,7 +5,6 @@ from django.views.generic.base import TemplateResponseMixin, View
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
-from dal import autocomplete
 from django.contrib.auth.models import User
 from .models import Сategory, Product, ProductMaterial, Material
 from .forms import CategoryForm, ProductForm
